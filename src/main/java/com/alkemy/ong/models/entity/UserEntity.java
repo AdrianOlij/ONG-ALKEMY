@@ -12,39 +12,30 @@ import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.Set;
 
-@Entity
+
 @Getter
 @Setter
 @Builder
 @SQLDelete(sql = "UPDATE users SET soft_delete = true WHERE id = ?")
-@Table(name = "users")
-@NoArgsConstructor
-@AllArgsConstructor
 @Where(clause = "soft_delete = false")
+
+@Entity
+@Table(name = "users")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @NotEmpty(message = "the first name can't be null")
-    @NotBlank(message = "the first name can't be blank")
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @NotNull
-    @NotEmpty(message = "the last name can't be null")
-    @NotBlank(message = "the last name can't be blank")
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @NotNull
     @Email(message = "the email is not valid")
     @Column(unique = true, nullable = false)
     private String email;
 
-    @NotNull
-    @NotEmpty(message = "the password can't be null")
     @Column(nullable = false)
     private String password;
 
@@ -56,10 +47,9 @@ public class UserEntity {
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<RoleEntity> roleId;
 
-    @Column(name = "timeStamp")
+    @Column(name = "creation_date")
     private Timestamp timestamp;
 
     @Column(name = "soft_delete",columnDefinition = "boolean default false")
-    @Builder.Default
-    private Boolean softDelete = false;
+    private Boolean softDelete;
 }
