@@ -18,12 +18,12 @@ import static com.alkemy.ong.utils.ApiConstants.*;
 @RestController
 @Api(value = "Testimonial controller", description = "CRUD and Gets methods pertaining to Testimonials")
 @RequestMapping(path = "/testimonials")
-@PreAuthorize(ROLE_ADMIN)
 public class TestimonialController {
 
     @Autowired
     private TestimonialService testimonialService;
 
+    //Create a testimonial with ADMIN ROLE
     @PostMapping
     @ApiOperation(value = "Create a Testimonial", notes = "Create a Testimonial using TestimonialRequest save in DB " +
             "and return a TestimonialResponse")
@@ -38,6 +38,7 @@ public class TestimonialController {
 
     @ApiOperation(value = "Update a testimonial", notes = "Update a Testimonial using an ID and a TestimonialRequest" +
             ", replacing the one that was in that ID")
+    //Replace entire TestimonialEntity with another body with ADMIN ROLE
     @PutMapping("/{id}")
     @ApiResponses({
         @ApiResponse(code = 200, message = "OK"),

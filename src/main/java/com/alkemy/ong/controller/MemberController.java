@@ -33,7 +33,6 @@ public class MemberController {
    private MemberService memberService;
 
    @GetMapping
-   @PreAuthorize(ROLE_ADMIN)
    @Operation(summary = "Get all members")
    @ApiResponses(value = {
            @ApiResponse(responseCode = "200", description = "Return a list of members",
@@ -48,7 +47,6 @@ public class MemberController {
    }
 
    @GetMapping(path = "/get-all")
-   @PreAuthorize(ROLE_USER)
    @Operation(summary = "Get Pageable all members")
    @ApiResponses(value = {
            @ApiResponse(responseCode = "200", description = "Return a Page of members",

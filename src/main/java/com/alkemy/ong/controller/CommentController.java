@@ -22,26 +22,22 @@ public class CommentController {
     @Autowired
     CommentService commentServ;
 
-    @PreAuthorize(ROLE_ADMIN)
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<?>getComments() {
         return new ResponseEntity<>(commentServ.findAllComments(), HttpStatus.OK);
     }
 
-    @PreAuthorize(BOTH)
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<?>deleteComment(@Valid @PathVariable("id") Long id, HttpServletRequest request) {
         return new ResponseEntity<>(commentServ.removeComment(id, request.getHeader("Authorization")), HttpStatus.OK);
     }
 
-    @PreAuthorize(BOTH)
     @PostMapping
     public ResponseEntity<CommentCompleteResponse> createComment (@Valid @RequestBody CommentRequest commentRequest){
         CommentCompleteResponse commentCreated = this.commentServ.create(commentRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(commentCreated);
     }
 
-    @PreAuthorize(BOTH)
     @PutMapping("/{id}")
     public ResponseEntity<CommentCompleteResponse> updateComment(
             @PathVariable("id") Long id, @RequestBody CommentRequest commentRequest, HttpServletRequest request){

@@ -20,22 +20,22 @@ import static com.alkemy.ong.utils.ApiConstants.ROLE_USER;
 @RequestMapping("/contacts")
 public class ContactController {
 
-   private final ContactService contactService;
+    private final ContactService contactService;
 
-   public ContactController(ContactService contactService) {
-      this.contactService = contactService;
-   }
+    public ContactController(ContactService contactService) {
+        this.contactService = contactService;
+    }
 
-   @PreAuthorize("hasRole('ROLE_ADMIN')")
-   @GetMapping
-   public ResponseEntity<List<ContactResponse>> listContacts(){
-      return ResponseEntity.ok(contactService.listContacts());
-   }
-   @PostMapping
-   public ResponseEntity<Void> addContact(@RequestBody @Valid ContactRequest request) throws IOException {
-      this.contactService.addContact(request);
-      return ResponseEntity.status(HttpStatus.CREATED).build();
-   }
+    @GetMapping
+    public ResponseEntity<List<ContactResponse>> listContacts() {
+        return ResponseEntity.ok(contactService.listContacts());
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> addContact(@RequestBody @Valid ContactRequest request) throws IOException {
+        this.contactService.addContact(request);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 
 
 }

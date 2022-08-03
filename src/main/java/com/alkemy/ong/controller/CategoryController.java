@@ -17,7 +17,6 @@ import static com.alkemy.ong.utils.ApiConstants.ROLE_ADMIN;
 
 @RestController
 @RequestMapping(path = "/categories")
-@PreAuthorize(ROLE_ADMIN)
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;

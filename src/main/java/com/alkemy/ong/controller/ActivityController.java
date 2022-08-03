@@ -17,19 +17,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/activity")
+@RequestMapping("/activities")
 public class ActivityController {
 
     @Autowired
     private ActivityService activityService;
-    
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     @PostMapping
     public ResponseEntity<ActivityResponse> create(@RequestBody @Valid ActivityRequest request){
         return ResponseEntity.status(HttpStatus.CREATED).body(activityService.create(request));
     }
-    
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     @PutMapping("/{id}")
     public ResponseEntity<Object> update(@PathVariable("id") @Valid @NotNull Long id, @Valid @RequestBody ActivityRequest request){
 
