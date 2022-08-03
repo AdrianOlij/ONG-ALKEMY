@@ -42,8 +42,8 @@ public class NewsEntity {
     private Long categoryId;
 
     @CreationTimestamp
-    @Column(name = "last_modification")
-    private Timestamp lastModification;
+    @Column(name = "creation_date")
+    private Timestamp timestamp;
 
     @Column(name = "soft_delete")
     @Builder.Default

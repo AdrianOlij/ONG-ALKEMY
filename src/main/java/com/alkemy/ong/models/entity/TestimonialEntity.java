@@ -1,8 +1,6 @@
 package com.alkemy.ong.models.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -18,6 +16,8 @@ import java.sql.Timestamp;
 @Builder
 @SQLDelete(sql = "UPDATE testimonials SET soft_delete = true WHERE testimonial_id=?")
 @Where(clause = "soft_delete = false")
+@AllArgsConstructor
+@NoArgsConstructor
 
 @Entity
 @Table(name = "testimonials")
@@ -28,19 +28,13 @@ public class TestimonialEntity {
     @Column(name = "testimonial_id")
     private Long id;
 
-    @NotBlank
-    @NotNull(message = "the name can't be null")
-    @NotEmpty(message = "the name can't be empty")
     private String name;
 
-    @NotBlank
-    @NotNull(message = "the image can't be null")
-    @NotEmpty(message = "the image can't be empty")
     private String image;
 
     private String content;
 
-    @Column(name = "timeStamp")
+    @Column(name = "creation_date")
     @CreationTimestamp
     private Timestamp timestamp;
 

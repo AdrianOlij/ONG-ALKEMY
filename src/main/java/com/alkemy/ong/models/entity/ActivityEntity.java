@@ -13,6 +13,7 @@ import java.sql.Timestamp;
 @SQLDelete(sql = "UPDATE activities SET soft_delete = true WHERE id = ?")
 @Where(clause = "soft_delete = false")
 @Builder
+@AllArgsConstructor @NoArgsConstructor
 
 @Entity
 @Table(name = "activities")
@@ -35,20 +36,6 @@ public class ActivityEntity {
     private Timestamp timestamp;
 
     @Column(name = "soft_delete", columnDefinition = "boolean default false")
-    private Boolean softDelete;
+    private Boolean softDelete = false;
 
-    public ActivityEntity(Long id, String name, String content, String image, Timestamp timestamp, Boolean softDelete) {
-        this.id = id;
-        this.name = name;
-        this.content = content;
-        this.image = image;
-        this.timestamp = timestamp;
-        this.softDelete = softDelete;
-    }
-
-    public ActivityEntity() {
-        this.name = name;
-        this.content = content;
-        this.image = image;
-    }
 }

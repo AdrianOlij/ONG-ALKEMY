@@ -40,7 +40,7 @@ public abstract class NewsContextTest extends ContextTests {
                         name("news test").
                         content("content test").
                         image("imageTest").
-                        lastModification(new Timestamp(System.currentTimeMillis())).
+                        timestamp(new Timestamp(System.currentTimeMillis())).
                         categoryId(category.getId()).
                         build();
         newsRepository.save(news);
@@ -54,7 +54,7 @@ public abstract class NewsContextTest extends ContextTests {
                         name(String.format("%s_%s", UUID.randomUUID().toString().substring(0, 5), System.currentTimeMillis() / 1000)).
                         content(String.format("%s_%s", UUID.randomUUID().toString().substring(0, 5), System.currentTimeMillis() / 1000)).
                         image(String.format("%s_%s", UUID.randomUUID().toString().substring(0, 5), System.currentTimeMillis() / 1000)).
-                        lastModification(new Timestamp(System.currentTimeMillis())).
+                        timestamp(new Timestamp(System.currentTimeMillis())).
                         categoryId(category.getId()).
                         build();
         newsRepository.save(news);
@@ -68,7 +68,7 @@ public abstract class NewsContextTest extends ContextTests {
                         name(String.format("%s_%s", UUID.randomUUID().toString().substring(0, 5), System.currentTimeMillis() / 1000)).
                         content(String.format("%s_%s", UUID.randomUUID().toString().substring(0, 5), System.currentTimeMillis() / 1000)).
                         image(String.format("%s_%s", UUID.randomUUID().toString().substring(0, 5), System.currentTimeMillis() / 1000)).
-                        lastModification(new Timestamp(System.currentTimeMillis())).
+                        timestamp(new Timestamp(System.currentTimeMillis())).
                         categoryId(category.getId()).
                         build();
         return news;

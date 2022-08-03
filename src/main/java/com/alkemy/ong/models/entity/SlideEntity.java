@@ -1,8 +1,6 @@
 package com.alkemy.ong.models.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -10,6 +8,9 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+
 @Entity
 @Table(name = "slides")
 public class SlideEntity {

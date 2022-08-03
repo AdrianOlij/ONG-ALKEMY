@@ -18,6 +18,7 @@ import java.util.Set;
 @Builder
 @SQLDelete(sql = "UPDATE users SET soft_delete = true WHERE id = ?")
 @Where(clause = "soft_delete = false")
+@AllArgsConstructor @NoArgsConstructor
 
 @Entity
 @Table(name = "users")
