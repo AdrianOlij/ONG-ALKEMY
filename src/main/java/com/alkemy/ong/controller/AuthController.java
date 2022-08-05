@@ -6,6 +6,8 @@ import com.alkemy.ong.models.response.AuthResponse;
 import com.alkemy.ong.models.response.UserDetailsResponse;
 import com.alkemy.ong.models.response.UserResponse;
 import com.alkemy.ong.service.AuthService;
+import com.alkemy.ong.service.LoginService;
+import com.alkemy.ong.service.RegisterService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -22,21 +24,28 @@ import javax.validation.Valid;
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private AuthService authService;
+    private final RegisterService registerService;
+    private final LoginService loginService;
+    private final AuthService authService;
+
+    public AuthController(RegisterService registerService, LoginService loginService, AuthService authService) {
+        this.registerService = registerService;
+        this.loginService = loginService;
+        this.authService = authService;
+    }
 
     @PostMapping("/register")
     public ResponseEntity<UserResponse> register(@Valid @RequestBody UserRequest userRequest) throws Exception {
-        return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(userRequest));
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.registerService.register(userRequest));
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody AuthRequest authRequest) {
-        return ResponseEntity.ok(authService.login(authRequest));
+        return ResponseEntity.ok(this.loginService.login(authRequest));
     }
 
     @GetMapping("/me")
     public ResponseEntity<UserDetailsResponse> getPersonalInformation(@RequestHeader(name = "Authorization") String token) {
-        return ResponseEntity.status(HttpStatus.OK).body(authService.getPersonalInformation(token));
+        return ResponseEntity.status(HttpStatus.OK).body(this.authService.getPersonalInformation(token));
     }
 }
