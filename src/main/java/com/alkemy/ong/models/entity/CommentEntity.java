@@ -4,17 +4,16 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
-@Entity
+
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+
+@Entity
 @Table(name = "comments")
 public class CommentEntity {
 
@@ -22,7 +21,7 @@ public class CommentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     private Long id;
-    
+
     @Column(columnDefinition = "TEXT")
     private String body;
 

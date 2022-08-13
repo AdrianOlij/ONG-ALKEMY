@@ -22,19 +22,20 @@ import static com.alkemy.ong.utils.ApiConstants.ROLE_ADMIN;
 @RequestMapping(path = "/users")
 public class UserController {
 
-   @Autowired
    private UserService userService;
 
-   @PreAuthorize(ROLE_ADMIN)
+   public UserController(UserService userService) {
+      this.userService = userService;
+   }
+
    @GetMapping
    public ResponseEntity<?> getAllUsers(@RequestParam Optional<Integer> page ){
 	   if(page.isPresent()) {
-		   return new ResponseEntity<>(userService.getPaginationUsers(page.get()), HttpStatus.OK);
+		   return new ResponseEntity<>(this.userService.getPaginationUsers(page.get()), HttpStatus.OK);
 	   }
-	return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
+	return new ResponseEntity<>(this.userService.getUsers(), HttpStatus.OK);
    }
 
-   @PreAuthorize(ROLE_ADMIN)
    @PatchMapping(path = "/{id}")
    public ResponseEntity<Void> updateUser(@PathVariable("id") @Valid @NotNull Long id,
                                     @RequestBody @Valid UserUpdateRequest request) {
@@ -42,17 +43,9 @@ public class UserController {
       return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
    }
 
-   @PreAuthorize(ROLE_ADMIN)
    @DeleteMapping("/{id}")
    public ResponseEntity<Void> deleteUser(@PathVariable("id") @Valid @NotNull Long id) {
       userService.deleteUser(id);
       return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
    }
-
-   @PreAuthorize(ROLE_ADMIN)
-   @GetMapping(path = "/users")
-   public ResponseEntity<List<UserDetailsResponse>> getUsers() {
-      return ResponseEntity.ok(userService.getUsers());
-   }
-
 }

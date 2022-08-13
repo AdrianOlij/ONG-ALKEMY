@@ -19,29 +19,32 @@ import com.alkemy.ong.auth.utility.RoleEnum;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
 @Profile("dev")
 public class DataBaseSeeder {
 
-    @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private PasswordEncoder encoder;
-    @Autowired
-    private NewsRepository newsRepository;
 
-    @Autowired
-    private ActivityRepository activityRepository;
+    private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
+    private final PasswordEncoder encoder;
+    private final NewsRepository newsRepository;
+    private final ActivityRepository activityRepository;
+    private final MembersRepository membersRepository;
+    private final CommentRepository commentRepository;
 
-    @Autowired
-    private MembersRepository membersRepository;
-
-    @Autowired
-    private CommentRepository commentRepository;
+    public DataBaseSeeder(RoleRepository roleRepository, UserRepository userRepository,
+                          CategoryRepository categoryRepository, PasswordEncoder encoder,
+                          NewsRepository newsRepository, ActivityRepository activityRepository,
+                          MembersRepository membersRepository, CommentRepository commentRepository) {
+        this.roleRepository = roleRepository;
+        this.userRepository = userRepository;
+        this.categoryRepository = categoryRepository;
+        this.encoder = encoder;
+        this.newsRepository = newsRepository;
+        this.activityRepository = activityRepository;
+        this.membersRepository = membersRepository;
+        this.commentRepository = commentRepository;
+    }
 
     //Users
     private static final String PASSWORD = "12345678";
@@ -55,31 +58,32 @@ public class DataBaseSeeder {
 
     @EventListener
     public void seed(ContextRefreshedEvent event) throws IOException {
-        if (roleRepository.findAll().isEmpty()) {
+        if (this.roleRepository.findAll().isEmpty()) {
             createRoles();
         }
-        if (userRepository.findAll().isEmpty()) {
+        if (this.userRepository.findAll().isEmpty()) {
             createUsers();
         }
 
-        if (categoryRepository.findAll().isEmpty()) {
+        if (this.categoryRepository.findAll().isEmpty()) {
             createCategories();
         }
-        if (newsRepository.findAll().isEmpty()) {
-            createNews();
 
+        if (this.newsRepository.findAll().isEmpty()) {
+            createNews();
         }
-        if (activityRepository.findAll().isEmpty()) {
+
+        if (this.activityRepository.findAll().isEmpty()) {
             createActivity();
         }
-        if (commentRepository.findAll().isEmpty()) {
+
+        if (this.commentRepository.findAll().isEmpty()) {
             createComments();
         }
 
-        if (membersRepository.findAll().isEmpty()) {
+        if (this.membersRepository.findAll().isEmpty()) {
             createMembers();
         }
-
     }
 
     private void createRoles() {
@@ -95,7 +99,7 @@ public class DataBaseSeeder {
     private void createUsers(RoleEnum applicationRole) {
 
         for (int index = 0; index < 8; index++) {
-            userRepository.save(
+            this.userRepository.save(
                     UserEntity.builder()
                             .firstName(firstNameUser[index])
                             .lastName(lastNameUser[index])
@@ -108,7 +112,7 @@ public class DataBaseSeeder {
     }
 
     private Set<RoleEntity> createListRole(RoleEnum applicationRole) {
-        Set<RoleEntity> roles = roleRepository.findByName(applicationRole.getFullRoleName());
+        Set<RoleEntity> roles = this.roleRepository.findByName(applicationRole.getFullRoleName());
         return roles;
     }
 
@@ -117,12 +121,12 @@ public class DataBaseSeeder {
         role.setId(id);
         role.setName(applicationRole.getFullRoleName());
         role.setDescription(applicationRole.name());
-        roleRepository.save(role);
+        this.roleRepository.save(role);
     }
 
     private void createCategories() {
         for (int i = 1; i < 25; i++) {
-            categoryRepository.save(
+            this.categoryRepository.save(
                CategoryEntity.builder()
                   .name("Category " + i)
                   .description("Description " + i)
@@ -134,7 +138,7 @@ public class DataBaseSeeder {
 
     private void createNews() {
         for (int i = 1; i < 13; i++) {
-            newsRepository.save(NewsEntity.builder()
+            this.newsRepository.save(NewsEntity.builder()
                .name("News " + i)
                .content("Content: " + i)
                .image("url_image " + i)
@@ -146,7 +150,7 @@ public class DataBaseSeeder {
 
     private void createActivity() {
         for (int index = 0; index < 3; index++) {
-            activityRepository.save(
+            this.activityRepository.save(
                ActivityEntity.builder()
                   .name(name[index])
                   .content("content " + (index + 1))
@@ -157,7 +161,7 @@ public class DataBaseSeeder {
 
     private void createComments() {
         for (int i = 1; i < 13; i++) {
-            commentRepository.save(CommentEntity.builder()
+            this.commentRepository.save(CommentEntity.builder()
                .body("body " + i)
                .newsId((long) i)
                .userId((long) i)
@@ -167,7 +171,7 @@ public class DataBaseSeeder {
 
     private void createMembers() {
         for (int i = 0; i < 20; i++) {
-            membersRepository.save(
+            this.membersRepository.save(
                MemberEntity.builder()
                   .name("Member: " + i)
                   .facebookUrl("facebook: " + i)

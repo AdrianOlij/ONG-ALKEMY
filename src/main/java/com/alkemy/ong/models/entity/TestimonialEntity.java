@@ -1,26 +1,16 @@
 package com.alkemy.ong.models.entity;
 
-import java.sql.Timestamp;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-@Entity
-@Table(name = "testimonials")
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
+
 @Getter
 @Setter
 @Builder
@@ -28,6 +18,9 @@ import org.hibernate.annotations.Where;
 @Where(clause = "soft_delete = false")
 @AllArgsConstructor
 @NoArgsConstructor
+
+@Entity
+@Table(name = "testimonials")
 public class TestimonialEntity {
 
     @Id
@@ -35,23 +28,16 @@ public class TestimonialEntity {
     @Column(name = "testimonial_id")
     private Long id;
 
-    @NotBlank
-    @NotNull(message = "the name can't be null")
-    @NotEmpty(message = "the name can't be empty")
     private String name;
-    
-    @NotBlank
-    @NotNull(message = "the image can't be null")
-    @NotEmpty(message = "the image can't be empty")
+
     private String image;
-    
+
     private String content;
-    
-    @Column(name = "timeStamp")
+
+    @Column(name = "creation_date")
     @CreationTimestamp
     private Timestamp timestamp;
-    
+
     @Column(name = "soft_delete")
-    @Builder.Default
-    private Boolean softDelete = Boolean.FALSE;
+    private boolean softDelete = Boolean.FALSE;
 }

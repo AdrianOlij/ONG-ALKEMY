@@ -28,64 +28,17 @@ import java.util.Set;
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+    private final UserDetailsServiceImpl userDetailsService;
+    private final JwtUtils jwtUtils;
 
-    @Autowired
-    private EmailService emailService;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
-
-    @Autowired
-    private JwtUtils jwtUtils;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Override
-    public UserResponse register(UserRequest userRequest) throws UsernameNotFoundException, IOException {
-        if (userRepository.findByEmail(userRequest.getEmail()).isPresent()) {
-            throw new UsernameNotFoundException("User already exists");
-        }
-        Set<RoleEntity> roles = roleRepository.findByName(RoleEnum.USER.getFullRoleName());
-        if (roles.isEmpty()) {
-            throw new NullPointerException();
-        }
-        userRequest.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-        UserEntity userEntity = userMapper.toUserEntity(userRequest, roles);
-        userRepository.save(userEntity);
-        emailService.switchEmail(userRequest.getEmail(), 1);
-
-        String token = generateToken(userRequest.getEmail());
-
-        return userMapper.toUserResponse(userEntity, token);
-    }
-
-    public AuthResponse login(AuthRequest authRequest) {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
-            String token = generateToken(authRequest.getEmail());
-            return AuthResponse.builder()
-                    .email(authRequest.getEmail())
-                    .token(token)
-                    .build();
-        } catch (Exception e) {
-            return AuthResponse.builder().ok(false).build();
-        }
-    }
-
-    private String generateToken(String userRequest) {
-        return jwtUtils.generateToken(userDetailsService.loadUserByUsername(userRequest));
+    public AuthServiceImpl(UserRepository userRepository, UserMapper userMapper,
+                           UserDetailsServiceImpl userDetailsService, JwtUtils jwtUtils) {
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
+        this.userDetailsService = userDetailsService;
+        this.jwtUtils = jwtUtils;
     }
 
     @Override

@@ -36,8 +36,8 @@ public class NewsController {
 	@Autowired
 	CommentService commentServ;
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
-	@GetMapping()
+	//Obtain a list of News with ANY ROLE
+	@GetMapping
 	@ApiOperation(value = "List news",
 				notes = "Return a news list")
 	@ApiResponse(code = 200, message = "OK")
@@ -49,7 +49,7 @@ public class NewsController {
 		}
 	}
 	
-	@PreAuthorize(BOTH)
+	//Obtain a News through ID with ANY ROLE
 	@GetMapping(path = "/{id}")
 	@ApiOperation(value = "Find By Id", notes = "Return a NewsResponse")
 	@ApiResponses(value = {
@@ -60,8 +60,8 @@ public class NewsController {
 		return new ResponseEntity<>(newsServ.getNewsById(id), HttpStatus.OK);
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@PostMapping()
+	//Create a News with ADMIN ROLE
+	@PostMapping
 	@ApiOperation(value = "Create news",
 			notes = "Return a newsResponse",
 			response = NewsResponse.class)
@@ -70,7 +70,7 @@ public class NewsController {
 		return new ResponseEntity<>(newsServ.createNews(news), HttpStatus.CREATED);
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	//Update entire NewEntity with another body with ADMIN ROLE
 	@PutMapping(path = "/{id}")
 	@ApiOperation(value = "Update news",
 			notes = "Return a newsResponse")
@@ -79,7 +79,7 @@ public class NewsController {
 		return new ResponseEntity<>(newsServ.updateNews(id, news), HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	//Delete a New with ADMIN ROLE
 	@DeleteMapping(path = "/{id}")
 	@ApiOperation(value = "Delete news",
 			notes = "Return a confirmation")
@@ -87,8 +87,8 @@ public class NewsController {
 	ResponseEntity<?> deleteNews(@Valid @PathVariable("id") Long id){
 		return new ResponseEntity<>(newsServ.removeNews(id), HttpStatus.OK);
 	}
-	
-	@PreAuthorize(BOTH)
+
+	//Obtain comments by News ID with ANY ROLE
 	@GetMapping(path = "/{id}/comments")
 	@ApiOperation(value = "Find coments by news Id",
 			notes = "Return a coment list")

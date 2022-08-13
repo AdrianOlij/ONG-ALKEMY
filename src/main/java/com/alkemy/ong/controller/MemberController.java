@@ -5,6 +5,7 @@ import com.alkemy.ong.models.request.UpdateMemberRequest;
 import com.alkemy.ong.models.response.MemberPageResponse;
 import com.alkemy.ong.models.response.MemberResponse;
 import com.alkemy.ong.service.MemberService;
+import com.sun.xml.bind.v2.TODO;
 import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -24,17 +25,14 @@ import static com.alkemy.ong.utils.ApiConstants.*;
 
 @RestController
 @RequestMapping(path = "/members")
-@Api(tags = {"Member Controller"})
-@SwaggerDefinition(tags = {
-        @Tag(name = "Member Controller", description = "Contains the CRUD methods of the ONG members")
-})
 public class MemberController {
+
+   //TODO: delete swagger documentation, clean code, define authorization, refactor GET controller for Users to ADMINS.
 
    @Autowired
    private MemberService memberService;
 
    @GetMapping
-   @PreAuthorize(ROLE_ADMIN)
    @Operation(summary = "Get all members")
    @ApiResponses(value = {
            @ApiResponse(responseCode = "200", description = "Return a list of members",
@@ -49,7 +47,6 @@ public class MemberController {
    }
 
    @GetMapping(path = "/get-all")
-   @PreAuthorize(ROLE_USER)
    @Operation(summary = "Get Pageable all members")
    @ApiResponses(value = {
            @ApiResponse(responseCode = "200", description = "Return a Page of members",

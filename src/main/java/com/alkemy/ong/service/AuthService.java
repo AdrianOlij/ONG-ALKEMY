@@ -10,7 +10,5 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.io.IOException;
 
 public interface AuthService {
-    UserResponse register(UserRequest userRequest) throws UsernameNotFoundException, IOException;
-    AuthResponse login(AuthRequest authRequest);
     UserDetailsResponse getPersonalInformation(String token);
 }

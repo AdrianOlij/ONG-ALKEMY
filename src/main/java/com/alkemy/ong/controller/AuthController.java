@@ -6,6 +6,8 @@ import com.alkemy.ong.models.response.AuthResponse;
 import com.alkemy.ong.models.response.UserDetailsResponse;
 import com.alkemy.ong.models.response.UserResponse;
 import com.alkemy.ong.service.AuthService;
+import com.alkemy.ong.service.LoginService;
+import com.alkemy.ong.service.RegisterService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -20,34 +22,30 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/auth")
-@Api(value = "Auth Controller", description = "Operations pertaining to Auth")
 public class AuthController {
 
-    @Autowired
-    private AuthService authService;
+    private final RegisterService registerService;
+    private final LoginService loginService;
+    private final AuthService authService;
+
+    public AuthController(RegisterService registerService, LoginService loginService, AuthService authService) {
+        this.registerService = registerService;
+        this.loginService = loginService;
+        this.authService = authService;
+    }
 
     @PostMapping("/register")
-    @ApiOperation(value = "Register a new user",
-            response = UserResponse.class)
-    @ApiResponse(code = 201, message = "CREATED")
     public ResponseEntity<UserResponse> register(@Valid @RequestBody UserRequest userRequest) throws Exception {
-        return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(userRequest));
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.registerService.register(userRequest));
     }
 
     @PostMapping("/login")
-    @ApiOperation(value = "Login a user",
-            response = AuthResponse.class)
-    @ApiResponse(code = 200, message = "OK")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody AuthRequest authRequest) {
-        return ResponseEntity.ok(authService.login(authRequest));
+        return ResponseEntity.ok(this.loginService.login(authRequest));
     }
 
     @GetMapping("/me")
-    @ApiOperation(value = "Get user details",
-            response = UserDetailsResponse.class)
-    @ApiResponse(code = 200, message = "OK")
     public ResponseEntity<UserDetailsResponse> getPersonalInformation(@RequestHeader(name = "Authorization") String token) {
-        return ResponseEntity.status(HttpStatus.OK).body(authService.getPersonalInformation(token));
+        return ResponseEntity.status(HttpStatus.OK).body(this.authService.getPersonalInformation(token));
     }
-
 }

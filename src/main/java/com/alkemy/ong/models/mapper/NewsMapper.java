@@ -4,10 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.alkemy.ong.models.entity.MemberEntity;
-import com.alkemy.ong.models.response.MemberPageResponse;
 import com.alkemy.ong.models.response.NewsPageResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alkemy.ong.models.entity.NewsEntity;
@@ -22,7 +19,7 @@ public class NewsMapper {
 				.name(newsRequest.getName())
 				.content(newsRequest.getContent())
 				.image(newsRequest.getImage())
-				.lastModification(new Timestamp(System.currentTimeMillis()))
+				.timestamp(new Timestamp(System.currentTimeMillis()))
 				.categoryId(newsRequest.getCategoryId())
 				.build();
 		
@@ -35,7 +32,7 @@ public class NewsMapper {
 				.content(news.getContent())
 				.image(news.getImage())
 				.categoryId(news.getCategoryId())
-				.lastModification(news.getLastModification())
+				.lastModification(news.getTimestamp())
 				.build();
 		
 		return newsResponse;	
@@ -59,7 +56,7 @@ public class NewsMapper {
 					.content(n.getContent())
 					.image(n.getImage())
 					.categoryId(n.getCategoryId())
-					.lastModification(n.getLastModification())
+					.lastModification(n.getTimestamp())
 					.build();	
 			newsResponseList.add(newsResponse);
 		});
