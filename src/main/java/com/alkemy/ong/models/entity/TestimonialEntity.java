@@ -39,5 +39,5 @@ public class TestimonialEntity {
     private Timestamp timestamp;
 
     @Column(name = "soft_delete")
-    private Boolean softDelete;
+    private boolean softDelete = Boolean.FALSE;
 }

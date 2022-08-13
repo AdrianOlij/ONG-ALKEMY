@@ -45,7 +45,6 @@ public class NewsEntity {
     private Timestamp timestamp;
 
     @Column(name = "soft_delete")
-    @Builder.Default
-    private Boolean softDelete = false;
+    private boolean softDelete = Boolean.FALSE;
 
 }

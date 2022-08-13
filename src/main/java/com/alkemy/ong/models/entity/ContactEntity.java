@@ -40,6 +40,6 @@ public class ContactEntity {
     @CreationTimestamp
     private Timestamp timestamp;
 
-    @Column(name = "soft_delete", nullable = false)
-    private boolean softDelete;
+    @Column(name = "soft_delete")
+    private boolean softDelete = Boolean.FALSE;
 }

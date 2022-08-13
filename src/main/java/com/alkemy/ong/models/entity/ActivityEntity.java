@@ -35,7 +35,7 @@ public class ActivityEntity {
     @CreationTimestamp
     private Timestamp timestamp;
 
-    @Column(name = "soft_delete", columnDefinition = "boolean default false")
-    private Boolean softDelete = false;
+    @Column(name = "soft_delete")
+    private boolean softDelete = Boolean.FALSE;
 
 }
